@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<head>
+    <title>RPi Home Server</title>
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
+    <!-- Optional theme -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap-theme.min.css" integrity="sha384-fLW2N01lMqjakBkx3l/M9EahuwpSfeNvV63J5ezn3uZzapT0u7EYsXMjQV+0En5r" crossorigin="anonymous">
+    <!-- Latest compiled and minified JavaScript -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
+</head>
+
+<body>
+    <h1>RPi Web Server</h1>
+    {% for entry in pins %}
+
+
+    {% if pins[entry].mode == 'on_off' %}
+    {% if pins[entry].state == false %}
+    <h3>{{ pins[entry].name }} (currently <strong>on</strong>)</h3>
+    <div class="row">
+        <div class="col-lg-2">
+            <a href="/{{pins[entry].pin}}/off" class="btn btn-block btn-lg btn-default" role="button">Turn off</a>
+        </div>
+    </div>
+    {% else %}
+    <h3>{{ pins[entry].name }} (currently <strong>off</strong>)</h3>
+    <div class="row">
+        <div class="col-lg-2">
+            <a href="/{{pins[entry].pin}}/on" class="btn btn-block btn-lg btn-primary" role="button">Turn on</a>
+        </div>
+    </div>
+    {% endif %}
+    <p>On times: {{ pins[entry].on }}</p>
+    <p>Off times: {{ pins[entry].off }}</p>
+    <div class="row">
+        <div class="col-lg-2">
+            <a href="/edit/{{entry}}" class="btn btn-block btn-lg btn-link" role="button">Edit</a>
+        </div>
+    </div>
+
+    {% elif pins[entry].mode == 'duration' %}
+    <h3>{{ pins[entry].name }} </h3>
+    <div class="row">
+        <div class="col-lg-2">
+            <a href="/{{pins[entry].pin}}/duration" class="btn btn-block btn-lg btn-primary" role="button">Turn on for {{ pins[entry].duration }}s</a>
+        </div>
+    </div>
+    <p>On times: {{ pins[entry].on }}</p>
+    <p>Last turned on: {{ pins[entry].last_on }}</p>
+    <div class="row">
+        <div class="col-lg-2">
+            <a href="/edit/{{entry}}" class="btn btn-block btn-lg btn-link" role="button">Edit</a>
+        </div>
+    </div>
+    {% endif %}
+
+
+    {% endfor %}
+</body>
+</html>

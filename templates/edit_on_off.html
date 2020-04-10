@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<head>
+    <title>RPi Home Server</title>
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
+    <!-- Optional theme -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap-theme.min.css" integrity="sha384-fLW2N01lMqjakBkx3l/M9EahuwpSfeNvV63J5ezn3uZzapT0u7EYsXMjQV+0En5r" crossorigin="anonymous">
+    <!-- Latest compiled and minified JavaScript -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
+</head>
+
+<body>
+    <h1>RPi Web Server</h1>
+    <h3>Edit {{ entry.name }}</h3>
+
+    <p>On times: {{ entry.on }}</p>
+    <p>Off times: {{ entry.off }}</p>
+
+    <div class="row">
+        <div class="col-lg-2">
+            <form action="/edit" method="post">
+                <div class="form-group">
+                    <label>On times (up to 3)</label>
+                    <input type="hidden" class="form-control" name="entry_name" id="entry_name_id" value="{{entry_name}}">
+                    <input type="time" class="form-control" name="on_time_1" id="on_time_1_id"
+                    {% if "on" in entry and entry.on|length>=1 %}
+                    value="{{entry.on[0]}}"
+                    {% endif %}
+                    placeholder="e.g. 13:10 or leave blank">
+                    <input type="time" class="form-control" name="on_time_2" id="on_time_2_id"
+                    {% if "on" in entry and entry.on|length>=2 %}
+                    value="{{entry.on[1]}}"
+                    {% endif %}
+                    placeholder="e.g. 13:10 or leave blank">
+                    <input type="time" class="form-control" name="on_time_3" id="on_time_3_id"
+                    {% if "on" in entry and entry.on|length>=3 %}
+                    value="{{entry.on[2]}}"
+                    {% endif %}
+                    placeholder="e.g. 13:10 or leave blank">
+                </div>
+                <div class="form-group">
+                    <label>Off times (up to 3)</label>
+                    <input type="time" class="form-control" name="off_time_1" id="off_time_1_id"
+                    {% if "off" in entry and entry.off|length>=1 %}
+                    value="{{entry.off[0]}}"
+                    {% endif %}
+                    placeholder="e.g. 13:10 or leave blank">
+                    <input type="time" class="form-control" name="off_time_2" id="off_time_2_id"
+                    {% if "off" in entry and entry.off|length>=2 %}
+                    value="{{entry.off[1]}}"
+                    {% endif %}
+                    placeholder="e.g. 13:10 or leave blank">
+                    <input type="time" class="form-control" name="off_time_3" id="off_time_3_id"
+                    {% if "off" in entry and entry.off|length>=3 %}
+                    value="{{entry.off[2]}}"
+                    {% endif %}
+                    placeholder="e.g. 13:10 or leave blank">
+                </div>
+                <input type="submit" name="submit_button" class="btn btn-block btn-lg btn-primary" value="Save">
+            </form>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-lg-2">
+            <a href="/" class="btn btn-block btn-lg btn-secondary" role="button">Back</a>
+        </div>
+    </div>
+
+
+</body>
+</html>
