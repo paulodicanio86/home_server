@@ -5,6 +5,7 @@ import RPi.GPIO as GPIO
 from flask import Flask, render_template, request, redirect, url_for
 app = Flask(__name__)
 
+
 # GPIO housekeeping
 GPIO.setmode(GPIO.BOARD)
 # Reverse logic here for relay because of 3.3V difference
