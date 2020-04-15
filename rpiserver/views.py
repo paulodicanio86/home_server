@@ -1,49 +1,10 @@
 from time import sleep
 from datetime import datetime
-import json
 import RPi.GPIO as GPIO
 from flask import Flask, render_template, request, redirect, url_for
-app = Flask(__name__)
 
 
-# GPIO housekeeping
-GPIO.setmode(GPIO.BOARD)
-# Reverse logic here for relay because of 3.3V difference
-GPIO_on = GPIO.LOW # =False
-GPIO_off = GPIO.HIGH # =True
-
-
-# Load data from json
-def load_data(file_path):
-    f = open(file_path)
-    loaded = json.load(f)
-    f.close()
-    return loaded
-
-
-def write_data(file_path, to_write):
-    with open(file_path, 'w') as f2:
-        json.dump(to_write, f2, indent=4)
-
-
-def initiate_pin_states(file_path):
-    pins_in = load_data(file_path)
-    for key in pins_in:
-        pins_in[key]['state'] = GPIO_off
-        GPIO.setup(pins_in[key]['pin'], GPIO.OUT)
-        GPIO.output(pins_in[key]['pin'], GPIO_off)
-
-
-def read_pin_states(pins_in):
-    for key in pins_in:
-        pins_in[key]['state'] = GPIO.input(pins_in[key]['pin'])
-    return pins_in
-
-
-# Initiate variables for server start
-path = '/home/pi/home_server/schedule.json'
-initiate_pin_states(path)
-
+from rpiserver import app, load_data, read_pin_states, write_data, path, GPIO_on, GPIO_off
 
 @app.route("/")
 def main():
@@ -53,7 +14,7 @@ def main():
     template_data = {
         'pins': pins_in
         }
-    return render_template('main.html', **template_data)
+    return render_template('templates/main.html', **template_data)
 
 
 @app.route("/<change_pin>/<action>")
@@ -99,9 +60,9 @@ def edit_domain_get(entry):
         }
 
     if pins_in[entry]['mode'] == 'on_off':
-        return render_template('edit_on_off.html', **template_data)
+        return render_template('templates/edit_on_off.html', **template_data)
     elif pins_in[entry]['mode'] == 'duration':
-        return render_template('edit_duration.html', **template_data)
+        return render_template('templates/edit_duration.html', **template_data)
 
 
 @app.route("/edit", methods=['POST'])
@@ -156,8 +117,5 @@ def edit_domain_post():
     return redirect(url_for('edit_domain_get', entry=entry_name))
 
 
-if __name__ == "__main__":
-    app.run(host='0.0.0.0', port=80, debug=True)
 
-# GPIO housekeeping
-GPIO.cleanup()
+
