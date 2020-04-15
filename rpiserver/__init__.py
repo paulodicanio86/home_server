@@ -8,7 +8,7 @@ import RPi.GPIO as GPIO
 ######################
 
 # GPIO housekeeping
-GPIO.setmode(GPIO.BOARD)
+#GPIO.setmode(GPIO.BOARD)
 # Reverse logic here for relay because of 3.3V difference
 GPIO_on = GPIO.LOW # =False
 GPIO_off = GPIO.HIGH # =True
@@ -48,7 +48,6 @@ def read_pin_states(pins_in):
 # Initiate variables for server start
 path = os.path.dirname(os.path.abspath(__file__))
 path = '/home/pi/home_server/schedule.json'
-initiate_pin_states(path)
 
 
 ######################

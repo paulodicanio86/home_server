@@ -4,11 +4,12 @@ import RPi.GPIO as GPIO
 from flask import Flask, render_template, request, redirect, url_for
 
 
-from rpiserver import app, load_data, read_pin_states, write_data, path, GPIO_on, GPIO_off
+from rpiserver import app, load_data, initiate_pin_states, read_pin_states, write_data, path, GPIO_on, GPIO_off
 
 @app.route("/")
 def main():
     GPIO.setmode(GPIO.BOARD)
+    initiate_pin_states(path)
 
     pins_in = load_data(path)
     pins_in = read_pin_states(pins_in)
