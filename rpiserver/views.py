@@ -8,6 +8,8 @@ from rpiserver import app, load_data, read_pin_states, write_data, path, GPIO_on
 
 @app.route("/")
 def main():
+    GPIO.setmode(GPIO.BOARD)
+
     pins_in = load_data(path)
     pins_in = read_pin_states(pins_in)
 
