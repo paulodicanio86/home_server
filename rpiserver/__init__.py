@@ -47,7 +47,10 @@ def read_pin_states(pins_in):
 
 # Initiate variables for server start
 path = os.path.dirname(os.path.abspath(__file__))
-path = '/home/pi/home_server/schedule.json'
+path_json = os.path.join(path, '..', 'schedule.json')
+
+#path_json = '/home/pi/home_server/schedule.json'
+
 
 
 ######################
