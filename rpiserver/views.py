@@ -6,6 +6,8 @@ from flask import Flask, render_template, request, redirect, url_for
 
 from rpiserver import app, load_data, read_pin_states, write_data, path, GPIO_on, GPIO_off
 
+GPIO.setmode(GPIO.BOARD)
+
 @app.route("/")
 def main():
     pins_in = load_data(path)
