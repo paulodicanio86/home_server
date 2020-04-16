@@ -30,6 +30,7 @@ def write_data(file_path, to_write):
 
 
 def initiate_pin_states(file_path):
+    GPIO.setmode(GPIO.BOARD)
     pins_in = load_data(file_path)
     for key in pins_in:
         GPIO.setup(pins_in[key]['pin'], GPIO.OUT)

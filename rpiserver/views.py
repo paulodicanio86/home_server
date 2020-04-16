@@ -11,7 +11,6 @@ from rpiserver import initiate_pin_states, read_pin_states, write_data, GPIO_on,
 
 @app.route("/")
 def main():
-    GPIO.setmode(GPIO.BOARD)
     initiate_pin_states(path_json)
 
     pins_in = load_data(path_json)
@@ -25,7 +24,7 @@ def main():
 
 @app.route("/<change_pin>/<action>")
 def change_pin_domain(change_pin, action):
-    GPIO.setmode(GPIO.BOARD)
+    initiate_pin_states(path_json)
     change_pin = int(change_pin)
     pins_in = load_data(path_json)
 
