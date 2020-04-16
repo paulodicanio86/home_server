@@ -4,12 +4,10 @@ from flask import Flask
 import RPi.GPIO as GPIO
 
 ######################
-# Set up things
+# Variables
 ######################
 
-# GPIO housekeeping
-#GPIO.setmode(GPIO.BOARD)
-# Reverse logic here for relay because of 3.3V difference
+# GPIOs: Reverse logic here for relay because of 3.3V difference
 GPIO_on = GPIO.LOW # =False
 GPIO_off = GPIO.HIGH # =True
 
@@ -35,8 +33,6 @@ def initiate_pin_states(file_path):
     pins_in = load_data(file_path)
     for key in pins_in:
         GPIO.setup(pins_in[key]['pin'], GPIO.OUT)
-        #GPIO.output(pins_in[key]['pin'], GPIO_off)
-        #pins_in[key]['state'] = GPIO_off
 
 
 def read_pin_states(pins_in):
@@ -48,9 +44,6 @@ def read_pin_states(pins_in):
 # Initiate variables for server start
 path = os.path.dirname(os.path.abspath(__file__))
 path_json = os.path.join(path, '..', 'schedule.json')
-
-#path_json = '/home/pi/home_server/schedule.json'
-
 
 
 ######################
