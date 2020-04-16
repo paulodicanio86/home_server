@@ -8,6 +8,7 @@ from flask import Flask, render_template, request, redirect, url_for
 from rpiserver import app, load_data, path_json, path
 from rpiserver import initiate_pin_states, read_pin_states, write_data, GPIO_on, GPIO_off
 
+
 @app.route("/")
 def main():
     GPIO.setmode(GPIO.BOARD)
@@ -19,7 +20,7 @@ def main():
     template_data = {
         'pins': pins_in
         }
-    return render_template(os.path.join(path, 'templates', 'main.html'), **template_data)
+    return render_template('main.html', **template_data)
 
 
 @app.route("/<change_pin>/<action>")
