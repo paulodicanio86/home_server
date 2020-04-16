@@ -1,0 +1,7 @@
+*.py~
+.gitignore~
+venv_app
+rpiserver/__pycache__
+testing.py
+.idea/
+.DS_Store

@@ -34,9 +34,9 @@ def write_data(file_path, to_write):
 def initiate_pin_states(file_path):
     pins_in = load_data(file_path)
     for key in pins_in:
-        pins_in[key]['state'] = GPIO_off
         GPIO.setup(pins_in[key]['pin'], GPIO.OUT)
-        GPIO.output(pins_in[key]['pin'], GPIO_off)
+        #GPIO.output(pins_in[key]['pin'], GPIO_off)
+        #pins_in[key]['state'] = GPIO_off
 
 
 def read_pin_states(pins_in):

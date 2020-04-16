@@ -66,9 +66,9 @@ def edit_domain_get(entry):
         }
 
     if pins_in[entry]['mode'] == 'on_off':
-        return render_template(os.path.join(path, 'templates', 'edit_on_off.html'), **template_data)
+        return render_template('edit_on_off.html', **template_data)
     elif pins_in[entry]['mode'] == 'duration':
-        return render_template(os.path.join(path, 'templates', 'edit_duration.html'), **template_data)
+        return render_template('edit_duration.html', **template_data)
 
 
 @app.route("/edit", methods=['POST'])
