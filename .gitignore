@@ -5,3 +5,5 @@ rpiserver/__pycache__
 testing.py
 .idea/
 .DS_Store
+__pycache__
+*.pyc
