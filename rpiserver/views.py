@@ -25,6 +25,7 @@ def main():
 
 @app.route("/<change_pin>/<action>")
 def change_pin_domain(change_pin, action):
+    GPIO.setmode(GPIO.BOARD)
     change_pin = int(change_pin)
     pins_in = load_data(path_json)
 

@@ -57,4 +57,4 @@ app = Flask(__name__)
 import rpiserver.views
 
 # GPIO housekeeping
-GPIO.cleanup()
+# GPIO.cleanup()
