@@ -95,7 +95,7 @@ Deactivate venv for now:
 deactivate
 ```
 
-## Prepare webserver
+## Prepare the webserver
 ### Install nginx
 ```
 sudo apt install nginx
@@ -105,7 +105,7 @@ Run server:
 sudo service nginx start
 ```
 
-###Install & prepare uWSGI
+### Install & prepare uWSGI
 ```
 sudo pip install uwsgi
 ```
@@ -137,7 +137,7 @@ die-on-term = true
 touch-reload = /home/pi/home_server/rpiserver/views.py
 ```
 
-### Make some extra changes requird to the pi
+### Make some extra changes required
 Let the webserver access the GPIO pins:
 ```
 sudo adduser www-data gpio
