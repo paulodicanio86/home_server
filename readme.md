@@ -1,6 +1,6 @@
 # RPi Home Server instructions
 
-## Set-up RPi with basics
+## Set-up the pi with basics
 
 ### Fresh SD card
 Put empty 'ssh' file into boot directory to enable headless mode with ssh activated. 
@@ -19,7 +19,7 @@ sudo apt install python3-pip
 ```
 
 ### Connect to Wifi
-(on clean SD card, put such a 'wpa_supplicant.conf' file into boot directory to add it to the pi automatically)
+(on a clean SD card, put such a *wpa_supplicant.conf* file into boot directory to add it to the pi automatically)
 
 ```
 sudo emacs /etc/wpa_supplicant/wpa_supplicant.conf
@@ -34,29 +34,49 @@ country=GB
 network={
  ssid="SSID"
  psk="PASSWORD"
+ priority=1
+ id_str="home"
+}
+
+network={
+ ssid="repair"
+ psk="repair_pwd"
+ priority=2
+ id_str="repair"
 }
 ```
+The second wifi is added in case the first one does not work, to still be able to access the pi. If the pi has an Ethernet port, that can also be used for debugging and making sure that the pi has (wifi) connectivity.
 
 ## Install home server code
 Perhaps reboot now to make sure the pi is connected and accessible again over ssh:
 ```
 sudo reboot
 ```
+Reconnect (replace with the assigned IP address):
+```
+ssh pi@192.168.0.188
+```
+Once connected it you can change the pi's default password using the command:
+```
+passwd
+```
+This is recommended. 
+
 
 Go into user's home directory and clone from github:
 ```
 cd
 git clone https://github.com/paulodicanio86/home_server.git
 ```
-Now a folder 'home_server' should appear in the user's home directory 
+Now a folder *home_server* should appear in the user's home directory 
 
-### Set up virtual environment
+### Set up a virtual environment
 Go into that new directory and execute:
 ```
 sudo apt install python3-venv
 python3 -m venv venv_app
 ```
-Activate newly created virtual environment and install packages:
+Activate the newly created virtual environment and install packages:
 ```
 source venv_app/bin/activate
 pip3 install -r requirements.txt
@@ -76,7 +96,7 @@ deactivate
 ```
 
 ## Prepare webserver
-###Install nginx
+### Install nginx
 ```
 sudo apt install nginx
 ```
@@ -90,8 +110,7 @@ sudo service nginx start
 sudo pip install uwsgi
 ```
 
-There should already be a file (from git clone) in the home server directory called *wsgi.py* with following content:
-(if not create one)
+There should already be a file (from git clone) in the home server directory called *wsgi.py* with following content (if not create one):
 ```
 from app import app
 
@@ -99,8 +118,7 @@ if __name__ == "__main__":
     app.run()
 ```
 
-There should already be a file (from git clone) in the home server directory called *home_server.ini* with following content:
-(if not create one)
+There should already be a file (from git clone) in the home server directory called *home_server.ini* with following content (if not create one):
 ```
 [uwsgi]
 module = wsgi:app
@@ -119,24 +137,24 @@ die-on-term = true
 touch-reload = /home/pi/home_server/rpiserver/views.py
 ```
 
-### Make some extra RPi changes
+### Make some extra changes requird to the pi
 Let the webserver access the GPIO pins:
 ```
 sudo adduser www-data gpio
 ```
 
-Let the webserver edit (read & write) the *schedule.json* file (in the home server directory):
+Let the webserver edit (read & write) the *schedule.json* file (go to the home server directory):
 ```
 chmod 666 schedule.json
 ```
 
-### Configure nginx to Use uWSGI
-Delete default nginx site:
+### Configure nginx to use uWSGI
+Delete the default nginx site:
 ```
 sudo rm /etc/nginx/sites-enabled/default
 ```
 
-Make a new site
+Make a new site:
 ```
 sudo emacs /etc/nginx/sites-available/home_server
 ```
@@ -157,7 +175,7 @@ Make a shortcut (or link) of this file to the enabled sites folder:
 sudo ln -s /etc/nginx/sites-available/home_server /etc/nginx/sites-enabled
 ```
 
-Restart nginx server:
+Restart the nginx server:
 ```
 sudo systemctl restart nginx
 ```
@@ -213,7 +231,7 @@ If both are running, you should now see your app running when you access the pi 
 ```
 http://192.168.0.188
 ```
-(replace with assigned IP address)
+(replace with the assigned IP address)
 
 
 ## Create cron job to check for jobs every minute
