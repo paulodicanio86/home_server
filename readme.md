@@ -252,7 +252,42 @@ This executes this python script every minute.
 
 ## Set a fixed IP address
 This is so that you can always access the server under the same address. Be aware of this! Make sure it is an address outside the network's DHCP range, otherwise clashes can occur.
-...
+Edit the following file:
+```
+sudo emacs /etc/dhcpcd.conf
+```
+Add to the bottom:
+```
+interface eth0
+	static ip_address=192.168.0.50/24
+        static routers=192.168.0.1
+        static domain_name_servers=127.0.0.1
+```
+In this case 192.168.0.50 is the new fixed IP address, 192.168.0.1 is the router in the LAN. To fix the IP address of the wifi replace *eth0* with *wlan0*. 
+
+Reboot:
+```
+sudo reboot
+```
+Access via new IP address (if it worked!):
+```
+ssh pi@192.168.0.50
+```
+See the new IP address:
+```
+ifconfig
+```
+
+
+
+
+
+
+
+
+
+
+
 
 
 
