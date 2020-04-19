@@ -3,7 +3,7 @@
 ## Set-up the pi with basics
 
 ### Fresh SD card
-Put empty 'ssh' file into boot directory to enable headless mode with ssh activated. 
+Put an empty 'ssh' file into boot directory to enable headless mode with ssh activated. 
 
 ### Update & Upgrade
 ```
