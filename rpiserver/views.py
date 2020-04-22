@@ -40,11 +40,10 @@ def change_pin_domain(name_key, action):
         GPIO.output(pins_in[name_key]['pin'], GPIO_off)
 
         # capture last_on time
-        if 'last_on' in pins_in[name_key].keys():
-            now_str = datetime.now().strftime("%d/%m/%Y, %H:%M:%S")
-            data_in = load_data(path_json)
-            data_in[name_key]['last_on'] = now_str
-            write_data(path_json, data_in)
+        now_str = datetime.now().strftime("%d/%m/%Y, %H:%M:%S")
+        data_in = load_data(path_json)
+        data_in[name_key]['last_on'] = now_str
+        write_data(path_json, data_in)
 
     return redirect(url_for('main'))
 
