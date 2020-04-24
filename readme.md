@@ -213,6 +213,11 @@ sudo systemctl status home_server.service
 ```
 This should be an active process now. 
 
+Enable it for when the pi reboots:
+```
+sudo systemctl enable  home_server.service
+```
+
 ## Test & Finish
 Reboot:
 ```
