@@ -1,20 +1,17 @@
 from time import sleep
 from datetime import datetime
-import RPi.GPIO as GPIO
 from flask import Flask, render_template, request, redirect, url_for
 
 
 from rpiserver import app, load_data, path_json
-from rpiserver import initiate_pin_states, read_pin_states, write_data, GPIO_on, GPIO_off
+from rpiserver import initiate_pin_states, read_pin_states, write_data, turn_device
 
 
 @app.route("/")
 def main():
     pins_in = load_data(path_json)
     initiate_pin_states(pins_in)
-    print('this is reached 2')
     pins_in = read_pin_states(pins_in)
-    print('this is reached 3')
 
     template_data = {
         'pins': pins_in
@@ -28,16 +25,16 @@ def change_pin_domain(name_key, action):
     initiate_pin_states(pins_in)
 
     if action == "on":
-        GPIO.output(pins_in[name_key]['pin'], GPIO_on)
+        turn_device(pins_in[name_key]['pin'], 'ON')
 
     if action == "off":
-        GPIO.output(pins_in[name_key]['pin'], GPIO_off)
+        turn_device(pins_in[name_key]['pin'], 'OFF')
 
     if action == "duration":
         sleep_duration = pins_in[name_key]['duration']
-        GPIO.output(pins_in[name_key]['pin'], GPIO_on)
+        turn_device(pins_in[name_key]['pin'], 'ON')
         sleep(sleep_duration)
-        GPIO.output(pins_in[name_key]['pin'], GPIO_off)
+        turn_device(pins_in[name_key]['pin'], 'OFF')
 
         # capture last_on time
         now_str = datetime.now().strftime("%d/%m/%Y, %H:%M:%S")

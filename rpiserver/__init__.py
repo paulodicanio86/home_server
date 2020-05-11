@@ -40,7 +40,9 @@ def initiate_pin_states(pins_in):
 
 
 def read_ip_state(ip):
-    r = requests.post("http://" + ip)  ## This needs fixing. TO MANY RETRIES? 
+    return GPIO_on
+    ## AS SAFETY STOP HERE FOR NOW
+    r = requests.post("http://" + ip)  ## This needs fixing. TO MANY RETRIES?
     r_str = str(r.content)
     state = r_str.split('<br>')[0].split('now: ')[1]
     if state == 'ON':
@@ -54,8 +56,30 @@ def read_pin_states(pins_in):
         if isinstance(pins_in[key]['pin'], int):
             pins_in[key]['state'] = GPIO.input(pins_in[key]['pin'])
         elif isinstance(pins_in[key]['pin'], str):
-            pins_in[key]['state'] = False ## read_ip_state(pins_in[key]['pin'])
+            pins_in[key]['state'] = read_ip_state(pins_in[key]['pin'])
     return pins_in
+
+
+def turn_pin(pin, state):
+    GPIO.setup(pin, GPIO.OUT)
+    if state == 'ON':
+        GPIO.output(pin, GPIO_on)
+    elif state == 'OFF':
+        GPIO.output(pin, GPIO_off)
+
+
+def turn_ip(ip, state):
+    # state should either be "ON" or "OFF"
+    requests.post("http://" + ip + "/RELAY=" +state)
+
+
+def turn_device(pin, state):
+    #if pin is an integer the GPIO is used
+    if isinstance(pin, int):
+        turn_pin(pin, state)
+    #if pin is a string the IP is used
+    elif isinstance(pin, str):
+        turn_ip(pin, state)
 
 
 # Initiate variables for server start
