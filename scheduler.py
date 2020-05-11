@@ -6,8 +6,8 @@ import RPi.GPIO as GPIO
 
 GPIO.setwarnings(False)
 GPIO.setmode(GPIO.BOARD)
-GPIO_on = GPIO.LOW # =False
-GPIO_off = GPIO.HIGH # =True
+GPIO_on = GPIO.LOW  # =False
+GPIO_off = GPIO.HIGH  # =True
 
 
 # Load data from json
@@ -37,10 +37,10 @@ def turn_ip(ip, state):
 
 
 def turn_device(pin, state):
-    #if pin is an integer the GPIO is used
+    # If pin is an integer the GPIO is used
     if isinstance(pin, int):
         turn_pin(pin, state)
-    #if pin is a string the IP is used
+    # If pin is a string the IP is used
     elif isinstance(pin, str):
         turn_ip(pin, state)
 

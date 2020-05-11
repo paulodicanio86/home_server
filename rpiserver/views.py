@@ -36,7 +36,7 @@ def change_pin_domain(name_key, action):
         sleep(sleep_duration)
         turn_device(pins_in[name_key]['pin'], 'OFF')
 
-        # capture last_on time
+        # Capture last_on time
         now_str = datetime.now().strftime("%d/%m/%Y, %H:%M:%S")
         data_in = load_data(path_json)
         data_in[name_key]['last_on'] = now_str
