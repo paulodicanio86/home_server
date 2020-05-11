@@ -23,7 +23,7 @@ def write_data(file_path, to_write):
         json.dump(to_write, f2, indent=4)
 
 
-def turn_pin(pin, state):
+def turn_gpio(pin, state):
     GPIO.setup(pin, GPIO.OUT)
     if state == 'ON':
         GPIO.output(pin, GPIO_on)
@@ -39,7 +39,7 @@ def turn_ip(ip, state):
 def turn_device(pin, state):
     # If pin is an integer the GPIO is used
     if isinstance(pin, int):
-        turn_pin(pin, state)
+        turn_gpio(pin, state)
     # If pin is a string the IP is used
     elif isinstance(pin, str):
         turn_ip(pin, state)
@@ -69,7 +69,6 @@ for entry in data:
     elif data_dic['mode'] == 'duration':
         for on_time in data_dic['on']:
             if on_time.split(':')[0] == hour and on_time.split(':')[1] == minute:
-
                 turn_device(data_dic['pin'], 'ON')
                 sleep(data_dic['duration'])
                 turn_device(data_dic['pin'], 'OFF')
