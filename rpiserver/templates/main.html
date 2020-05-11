@@ -17,19 +17,20 @@
     {% if pins[entry].mode == 'on_off' %}
     {% if pins[entry].state == false %}
     <h3>{{ pins[entry].name }} (currently <strong>on</strong>)</h3>
-    <div class="row">
-        <div class="col-lg-2">
-            <a href="/{{entry}}/off" class="btn btn-block btn-lg btn-default" role="button">Turn off</a>
-        </div>
-    </div>
     {% else %}
     <h3>{{ pins[entry].name }} (currently <strong>off</strong>)</h3>
+    {% endif %}
     <div class="row">
         <div class="col-lg-2">
             <a href="/{{entry}}/on" class="btn btn-block btn-lg btn-primary" role="button">Turn on</a>
         </div>
     </div>
-    {% endif %}
+    <div class="row">
+        <div class="col-lg-2">
+            <a href="/{{entry}}/off" class="btn btn-block btn-lg btn-default" role="button">Turn off</a>
+        </div>
+    </div>
+
     <p>On times: {{ pins[entry].on }}</p>
     <p>Off times: {{ pins[entry].off }}</p>
     <div class="row">
