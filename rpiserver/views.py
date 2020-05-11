@@ -17,7 +17,8 @@ def main():
     template_data = {
         'pins': pins_in
         }
-    return render_template('main.html', **template_data)
+    return 'dada'
+    #return render_template('main.html', **template_data)
 
 
 @app.route("/<name_key>/<action>")
