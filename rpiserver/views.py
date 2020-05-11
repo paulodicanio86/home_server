@@ -4,13 +4,13 @@ from flask import Flask, render_template, request, redirect, url_for
 
 
 from rpiserver import app, load_data, path_json
-from rpiserver import initiate_pin_states, read_pin_states, write_data, turn_device
+from rpiserver import initiate_gpio_states, read_pin_states, write_data, turn_device
 
 
 @app.route("/")
 def main():
     pins_in = load_data(path_json)
-    initiate_pin_states(pins_in)
+    initiate_gpio_states(pins_in)
     pins_in = read_pin_states(pins_in)
 
     template_data = {
@@ -22,7 +22,7 @@ def main():
 @app.route("/<name_key>/<action>")
 def change_pin_domain(name_key, action):
     pins_in = load_data(path_json)
-    initiate_pin_states(pins_in)
+    initiate_gpio_states(pins_in)
 
     if action == "on":
         turn_device(pins_in[name_key]['pin'], 'ON')
@@ -62,8 +62,8 @@ def edit_domain_get(name_key):
 
 @app.route("/edit", methods=['POST'])
 def edit_domain_post():
-    name_key = request.form['entry_name']
     data_in = load_data(path_json)
+    name_key = request.form['entry_name']
 
     if data_in[name_key]['mode'] == 'duration':
         on_time_1 = request.form['on_time_1']
