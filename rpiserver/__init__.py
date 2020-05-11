@@ -30,14 +30,8 @@ def write_data(file_path, to_write):
         json.dump(to_write, f2, indent=4)
 
 
-def initiate_gpio_states(pins_in):
+def initiate_gpio_board():
     GPIO.setmode(GPIO.BOARD)
-
-    #for key in pins_in:
-        # Check if device output is an actual pin or IP
-        # If a pin, define it as an output GPIO
-     #   if isinstance(pins_in[key]['pin'], int):
-      #      GPIO.setup(pins_in[key]['pin'], GPIO.OUT)    ### TAKE THIS ENTIRE BLOCK OUT?
 
 
 def read_ip_state(ip):
@@ -53,6 +47,7 @@ def read_ip_state(ip):
 
 
 def read_gpio_state(pin):
+    GPIO.setup(pin, GPIO.OUT)
     return GPIO.input(pin)
 
 
@@ -75,7 +70,7 @@ def turn_gpio(pin, state):
 
 def turn_ip(ip, state):
     # state should either be "ON" or "OFF"
-    requests.post("http://" + ip + "/RELAY=" +state)
+    requests.post("http://" + ip + "/RELAY=" + state)
 
 
 def turn_device(pin, state):
