@@ -1,4 +1,3 @@
-import os
 from time import sleep
 from datetime import datetime
 import RPi.GPIO as GPIO
