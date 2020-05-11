@@ -37,7 +37,7 @@ def initiate_gpio_states(pins_in):
         # Check if device output is an actual pin or IP
         # If a pin, define it as an output GPIO
         if isinstance(pins_in[key]['pin'], int):
-            GPIO.setup(pins_in[key]['pin'], GPIO.OUT)
+            GPIO.setup(pins_in[key]['pin'], GPIO.OUT)    ### TAKE THIS ENTIRE BLOCK OUT?
 
 
 def read_ip_state(ip):
@@ -53,7 +53,8 @@ def read_ip_state(ip):
 
 
 def read_gpio_state(pin):
-    return GPIO.input(pin)
+    return False
+    return GPIO.input(pin)     ## OR DOES THIS CHANGE THE STATE?
 
 
 def read_pin_states(pins_in):
