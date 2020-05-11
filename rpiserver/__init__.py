@@ -31,6 +31,7 @@ def write_data(file_path, to_write):
 
 
 def initiate_gpio_board():
+    GPIO.setwarnings(False)
     GPIO.setmode(GPIO.BOARD)
 
 
