@@ -33,7 +33,9 @@ def initiate_pin_states(file_path):
     GPIO.setmode(GPIO.BOARD)
     pins_in = load_data(file_path)
     for key in pins_in:
-        GPIO.setup(pins_in[key]['pin'], GPIO.OUT)
+        #check if device output is an actual pin or IP
+        if isinstance(pins_in[key]['pin'], int):
+            GPIO.setup(pins_in[key]['pin'], GPIO.OUT)
 
 
 def read_pin_states(pins_in):
