@@ -1,6 +1,7 @@
 import json
 import os
 from flask import Flask
+import requests
 import RPi.GPIO as GPIO
 
 ######################
@@ -29,18 +30,31 @@ def write_data(file_path, to_write):
         json.dump(to_write, f2, indent=4)
 
 
-def initiate_pin_states(file_path):
+def initiate_pin_states(pins_in):
     GPIO.setmode(GPIO.BOARD)
-    pins_in = load_data(file_path)
+
     for key in pins_in:
-        #check if device output is an actual pin or IP
+        # Check if device output is an actual pin or IP
         if isinstance(pins_in[key]['pin'], int):
             GPIO.setup(pins_in[key]['pin'], GPIO.OUT)
 
 
+def read_ip_state(ip):
+    r = requests.post("http://" + ip)
+    r_str = str(r.content)
+    state = r_str.split('<br>')[0].split('now: ')[1]
+    if state == 'ON':
+        return GPIO_on
+    if state == 'OFF':
+        return GPIO_off
+
+
 def read_pin_states(pins_in):
     for key in pins_in:
-        pins_in[key]['state'] = GPIO.input(pins_in[key]['pin'])
+        if isinstance(pins_in[key]['pin'], int):
+            pins_in[key]['state'] = GPIO.input(pins_in[key]['pin'])
+        elif isinstance(pins_in[key]['pin'], str):
+            pins_in[key]['state'] = read_ip_state(pins_in[key]['pin'])
     return pins_in
 
 

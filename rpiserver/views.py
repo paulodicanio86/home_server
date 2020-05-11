@@ -11,9 +11,8 @@ from rpiserver import initiate_pin_states, read_pin_states, write_data, GPIO_on,
 
 @app.route("/")
 def main():
-    initiate_pin_states(path_json)
-
     pins_in = load_data(path_json)
+    initiate_pin_states(pins_in)
     pins_in = read_pin_states(pins_in)
 
     template_data = {
@@ -24,8 +23,8 @@ def main():
 
 @app.route("/<name_key>/<action>")
 def change_pin_domain(name_key, action):
-    initiate_pin_states(path_json)
     pins_in = load_data(path_json)
+    initiate_pin_states(pins_in)
 
     if action == "on":
         GPIO.output(pins_in[name_key]['pin'], GPIO_on)
@@ -50,7 +49,6 @@ def change_pin_domain(name_key, action):
 
 @app.route("/edit/<name_key>", methods=['GET'])
 def edit_domain_get(name_key):
-
     pins_in = load_data(path_json)
 
     template_data = {
@@ -66,7 +64,6 @@ def edit_domain_get(name_key):
 
 @app.route("/edit", methods=['POST'])
 def edit_domain_post():
-
     name_key = request.form['entry_name']
     data_in = load_data(path_json)
 
