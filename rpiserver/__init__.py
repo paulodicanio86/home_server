@@ -40,7 +40,7 @@ def initiate_pin_states(pins_in):
 
 
 def read_ip_state(ip):
-    r = requests.post("http://" + ip)
+    r = requests.post("http://" + ip)  ## This needs fixing. TO MANY RETRIES? 
     r_str = str(r.content)
     state = r_str.split('<br>')[0].split('now: ')[1]
     if state == 'ON':
@@ -54,7 +54,7 @@ def read_pin_states(pins_in):
         if isinstance(pins_in[key]['pin'], int):
             pins_in[key]['state'] = GPIO.input(pins_in[key]['pin'])
         elif isinstance(pins_in[key]['pin'], str):
-            pins_in[key]['state'] = read_ip_state(pins_in[key]['pin'])
+            pins_in[key]['state'] = False ## read_ip_state(pins_in[key]['pin'])
     return pins_in
 
 

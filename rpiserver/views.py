@@ -11,7 +11,6 @@ from rpiserver import initiate_pin_states, read_pin_states, write_data, GPIO_on,
 @app.route("/")
 def main():
     pins_in = load_data(path_json)
-    print('this is reached 1')
     initiate_pin_states(pins_in)
     print('this is reached 2')
     pins_in = read_pin_states(pins_in)
@@ -20,8 +19,7 @@ def main():
     template_data = {
         'pins': pins_in
         }
-    return 'dada'
-    #return render_template('main.html', **template_data)
+    return render_template('main.html', **template_data)
 
 
 @app.route("/<name_key>/<action>")
