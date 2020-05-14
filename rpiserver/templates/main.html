@@ -46,6 +46,11 @@
             <a href="/{{entry}}/duration" class="btn btn-block btn-lg btn-primary" role="button">Turn on for {{ pins[entry].duration }}s</a>
         </div>
     </div>
+    <div class="row">
+        <div class="col-lg-2">
+            <a href="/{{entry}}/off" class="btn btn-block btn-lg btn-default" role="button">Turn off</a>
+        </div>
+    </div>
     <p>On times: {{ pins[entry].on }}</p>
     <p>Last turned on: {{ pins[entry].last_on }}</p>
     <div class="row">
