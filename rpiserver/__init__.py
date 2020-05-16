@@ -37,7 +37,7 @@ def initiate_gpio_board():
 
 
 def ip_available(ip):
-    response = subprocess.run(["ping -c 1 -t 1 " + ip], executable='/bin/bash', shell=True).returncode
+    response = subprocess.run(["/bin/ping -c 1 -t 1 " + ip], shell=True).returncode
     if response == 0:
         return True
     else:
