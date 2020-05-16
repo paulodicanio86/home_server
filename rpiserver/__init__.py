@@ -36,7 +36,7 @@ def initiate_gpio_board():
     GPIO.setmode(GPIO.BOARD)
 
 
-def ip_available(ip):
+def ip_available(ip):   ### DELETE? NOT BEING USED AFTERALL
     response = subprocess.run(["/bin/ping -c 1 -t 1 " + ip], shell=True).returncode
     if response == 0:
         return True
@@ -51,10 +51,12 @@ def read_gpio_state(pin):
 
 def read_ip_state(ip):
     state = 'OFF'
-    if ip_available(ip):
+    try:
         r = requests.get("http://" + ip)
         r_str = str(r.text)
         state = r_str.split('<br>')[0].split('now: ')[1]
+    except:
+        state = 'OFF'
 
     if state == 'ON':
         return True
