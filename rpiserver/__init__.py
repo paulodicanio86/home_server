@@ -80,8 +80,10 @@ def turn_gpio(pin, state):
 
 
 def turn_ip(ip, state):
-    if ip_available(ip):
+    try:
         requests.get("http://" + ip + "/RELAY=" + state)
+    except:
+        pass
 
 
 def turn_device(pin, state):
