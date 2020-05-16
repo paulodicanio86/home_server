@@ -1,5 +1,6 @@
 import json
 import os
+import subprocess
 from flask import Flask
 import requests
 import RPi.GPIO as GPIO
@@ -35,21 +36,30 @@ def initiate_gpio_board():
     GPIO.setmode(GPIO.BOARD)
 
 
-def read_ip_state(ip):
-    return False
-    ## AS SAFETY STOP HERE FOR NOW
-    r = requests.post("http://" + ip)  ## This needs fixing. TO MANY RETRIES?
-    r_str = str(r.content)
-    state = r_str.split('<br>')[0].split('now: ')[1]
-    if state == 'ON':
+def ip_available(ip):
+    response = subprocess.run(["ping", "-c", "1", "-t", "1", ip]).returncode
+    if response == 0:
         return True
-    if state == 'OFF':
+    else:
         return False
 
 
 def read_gpio_state(pin):
     GPIO.setup(pin, GPIO.OUT)
     return GPIO.input(pin)
+
+
+def read_ip_state(ip):
+    state = 'OFF'
+    if ip_available(ip):
+        r = requests.get("http://" + ip)
+        r_str = str(r.text)
+        state = r_str.split('<br>')[0].split('now: ')[1]
+
+    if state == 'ON':
+        return True
+    if state == 'OFF':
+        return False
 
 
 def read_pin_states(pins_in):
@@ -70,8 +80,8 @@ def turn_gpio(pin, state):
 
 
 def turn_ip(ip, state):
-    # state should either be "ON" or "OFF"
-    requests.post("http://" + ip + "/RELAY=" + state)
+    if ip_available(ip):
+        requests.get("http://" + ip + "/RELAY=" + state)
 
 
 def turn_device(pin, state):
