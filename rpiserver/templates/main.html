@@ -15,7 +15,7 @@
 
 
     {% if pins[entry].mode == 'on_off' %}
-    {% if pins[entry].state == false %}
+    {% if pins[entry].state == true %}
     <h3>{{ pins[entry].name }} (currently <strong>on</strong>)</h3>
     {% else %}
     <h3>{{ pins[entry].name }} (currently <strong>off</strong>)</h3>
