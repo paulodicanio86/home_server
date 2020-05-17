@@ -52,7 +52,7 @@ def read_gpio_state(pin):
 def read_ip_state(ip):
     state = 'OFF'
     try:
-        r = requests.get("http://" + ip)
+        r = requests.get("http://" + ip, timeout=0.1)
         r_str = str(r.text)
         state = r_str.split('<br>')[0].split('now: ')[1]
     except:
@@ -83,7 +83,7 @@ def turn_gpio(pin, state):
 
 def turn_ip(ip, state):
     try:
-        requests.get("http://" + ip + "/RELAY=" + state)
+        requests.get("http://" + ip + "/RELAY=" + state, timeout=0.1)
     except:
         pass
 
