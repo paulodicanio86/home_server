@@ -32,8 +32,10 @@ def turn_gpio(pin, state):
 
 
 def turn_ip(ip, state):
-    # state should either be "ON" or "OFF"
-    requests.post("http://" + ip + "/RELAY=" +state)
+    try:
+        requests.get("http://" + ip + "/RELAY=" + state, timeout=0.1)
+    except:
+        pass
 
 
 def turn_device(pin, state):
